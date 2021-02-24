@@ -9,8 +9,14 @@
 ###   $0 : nothing to do. exit 0;
 ###
 
-BASHER_GCLOUD_CONFIG_STORE=~/.config/gcloud/configurations
-BASHER_GCLOUD_PROFILE_LIST=
+export BASHER_GCLOUD_CONFIG_STORE=~/.config/gcloud/configurations
+export BASHER_GCLOUD_PROFILE_LIST=
+export BAHSER_GCLOUD_ACTIVE_PROFILE=
+
+function BASHER_GCLOUD_PROFILE_SELECT() {
+  cd $(dirname 0)
+  bash -c 'bash loader.bash -s'
+}
 
 if [ -d "$BASHER_GCLOUD_CONFIG_STORE" ] ; then
   BASHER_GCLOUD_PROFILE_LIST="$(ls $BASHER_GCLOUD_CONFIG_STORE)"
@@ -20,14 +26,18 @@ if [ -d "$BASHER_GCLOUD_CONFIG_STORE" ] ; then
   if [ $# -gt 0 ] ; then
     command -v fzf > /dev/null 2>&1
     if [ $? -eq 0 ] ; then ### fzf is available
-      BASHER_GCLOUD_SELECTED_PROFILE_NAME=$(echo $BASHER_GCLOUD_PROFILE_LIST | sed -e  's/ /\n/g' | fzf --ansi || true)
+      export BASHER_GCLOUD_SELECTED_PROFILE_NAME=$(echo $BASHER_GCLOUD_PROFILE_LIST | sed -e  's/ /\n/g' | fzf --ansi || true)
       if [ -n "$BASHER_GCLOUD_SELECTED_PROFILE_NAME" ] ; then
         gcloud config configurations activate $(echo $BASHER_GCLOUD_SELECTED_PROFILE_NAME | sed -e 's/config_//g')
+        export BAHSER_GCLOUD_ACTIVE_PROFILE=$(echo $BASHER_GCLOUD_SELECTED_PROFILE_NAME | sed -e 's/config_//g')
       fi
     else
       echo $BASHER_GCLOUD_PROFILE_LIST
     fi
+  else
+    BASHER_GCLOUD_PROFILE_SELECT
   fi
 fi
+
 
 exit 0

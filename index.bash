@@ -19,4 +19,5 @@ if [ ! -d "lib" ] ; then
   _basher_err_quit "'lib' directory not found. "
 fi
 
-exit 0
+cd lib
+. ./wonderer.bash
