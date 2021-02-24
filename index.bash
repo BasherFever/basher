@@ -13,7 +13,7 @@ if [ "$SHLVL" -ne 1 ] ; then ### is not login shell
   fi
 fi
 
-cd $(dirname 0) ### cd to This Directory
+cd $(dirname $BASH_SOURCE[0]) ### cd to This Directory
 
 if [ ! -d "lib" ] ; then
   _basher_err_quit "'lib' directory not found. "
