@@ -14,9 +14,11 @@ export BASHER_GCLOUD_PROFILE_LIST=
 export BAHSER_GCLOUD_ACTIVE_PROFILE=
 
 function BASHER_GCLOUD_PROFILE_SELECT() {
-  cd $(dirname 0)
+  cd $(dirname $BASH_SOURCE[0])
   bash -c 'bash loader.bash -s'
 }
+
+alias gcloud-profile-manager="$BASHER_GCLOUD_PROFILE_SELECT"
 
 if [ -d "$BASHER_GCLOUD_CONFIG_STORE" ] ; then
   BASHER_GCLOUD_PROFILE_LIST="$(ls $BASHER_GCLOUD_CONFIG_STORE)"
@@ -38,6 +40,3 @@ if [ -d "$BASHER_GCLOUD_CONFIG_STORE" ] ; then
     BASHER_GCLOUD_PROFILE_SELECT
   fi
 fi
-
-
-exit 0

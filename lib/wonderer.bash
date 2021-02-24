@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd $(dirname 0) ### cd to cwd
+cd $(dirname $BASH_SOURCE[0]) ### cd to cwd
 
 find . -type f -maxdepth 3 -iname 'loader.bash' 2>&1 | grep -v '^.$|^..$' | while read LN; do
   if [ -n "$BASHER_DEBUG" ] ; then
@@ -15,3 +15,5 @@ find . -type f -maxdepth 3 -iname 'loader.bash' 2>&1 | grep -v '^.$|^..$' | whil
   fi
   popd > /dev/null
 done
+
+exec bash -i
